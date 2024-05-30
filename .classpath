@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="Driver"/>
+	<classpathentry kind="lib" path="src/es/studium/ProyectoGestion/mysql-connector-java-8.0.29.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/iText7-Core-7.2.1-only-jars/barcodes-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/iText7-Core-7.2.1-only-jars/commons-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/iText7-Core-7.2.1-only-jars/font-asian-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/iText7-Core-7.2.1-only-jars/forms-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/iText7-Core-7.2.1-only-jars/hyph-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/iText7-Core-7.2.1-only-jars/io-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/iText7-Core-7.2.1-only-jars/kernel-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/iText7-Core-7.2.1-only-jars/layout-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/iText7-Core-7.2.1-only-jars/pdfa-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/iText7-Core-7.2.1-only-jars/pdftest-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/iText7-Core-7.2.1-only-jars/sign-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/iText7-Core-7.2.1-only-jars/slf4j-api-1.7.25.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/iText7-Core-7.2.1-only-jars/slf4j-nop-1.7.25.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/iText7-Core-7.2.1-only-jars/styled-xml-parser-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/iText7-Core-7.2.1-only-jars/svg-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/poi-4.1.2/commons-collections4-4.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/poi-4.1.2/commons-compress-1.19.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/poi-4.1.2/poi-4.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/poi-4.1.2/poi-ooxml-4.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/poi-4.1.2/poi-ooxml-schemas-4.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/juanj/OneDrive/Escritorio/JARS_JAVA/poi-4.1.2/xmlbeans-3.1.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
