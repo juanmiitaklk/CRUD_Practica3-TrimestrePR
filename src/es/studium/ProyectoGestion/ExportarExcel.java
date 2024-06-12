@@ -1,5 +1,6 @@
 package es.studium.ProyectoGestion;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -19,7 +20,7 @@ public class ExportarExcel
     public void exportarSociosExcel()
     {
         String nombreArchivo = "Socios.xlsx";
-        String rutaArchivo = "C:\\Users\\juanj\\OneDrive\\Escritorio\\Prueba Exportacion Excel Java" + nombreArchivo;
+        String rutaArchivo = "C:\\FicherosExcel\\"+nombreArchivo;
         String hoja = "Hoja1";
         XSSFWorkbook libro = new XSSFWorkbook();
         XSSFSheet hoja1 = libro.createSheet(hoja);
@@ -41,7 +42,9 @@ public class ExportarExcel
             XSSFCell cell = headerRow.createCell(j);
             cell.setCellStyle(style);
             cell.setCellValue(header[j]);
-        }
+            
+            
+          }
 
 		// Agregar datos
         try {
@@ -71,6 +74,8 @@ public class ExportarExcel
             System.out.println("Archivo Creado");
             libro.close();
             
+            Desktop.getDesktop().open(new File(rutaArchivo));
+            
         }
         catch (FileNotFoundException e)
         {
@@ -85,7 +90,7 @@ public class ExportarExcel
 	public void exportarPistasExcel() 
 	{
 		String nombreArchivo = "Pistas.xlsx";
-        String rutaArchivo = "C:\\Users\\juanj\\OneDrive\\Escritorio\\Pistas Exportacion Excel Java" + nombreArchivo;
+        String rutaArchivo = "C:\\FicherosExcel\\"+nombreArchivo;
         String hoja = "Hoja1";
         XSSFWorkbook libro = new XSSFWorkbook();
         XSSFSheet hoja1 = libro.createSheet(hoja);
@@ -151,8 +156,8 @@ public class ExportarExcel
 
 	public void exportarReservasExcel() 
 	{
-		String nombreArchivo = "Pistas.xlsx";
-        String rutaArchivo = "C:\\Users\\juanj\\OneDrive\\Escritorio\\Pistas Exportacion Excel Java" + nombreArchivo;
+		String nombreArchivo = "Resrvas.xlsx";
+        String rutaArchivo = "C:\\FicherosExcel\\"+nombreArchivo;
         String hoja = "Hoja1";
         XSSFWorkbook libro = new XSSFWorkbook();
         XSSFSheet hoja1 = libro.createSheet(hoja);

@@ -32,6 +32,11 @@ public class Datos
 	public int getTipoUsuario() {
 		return tipoUsuario;
 	}
+	
+	 public void setTipoUsuario(int tipoUsuario) {
+	        this.tipoUsuario = tipoUsuario;
+	    }
+	 
     // Método para conectar a la base de datos
 	public boolean conectar()
 	{
@@ -226,8 +231,8 @@ public class Datos
 	    // Sentencia SQL para actualizar la información del socio
 		String sentencia = "UPDATE Socios SET nombreSocio = '" + nombre + "', primerApellidoSocio = '" + primerApellido + "', segundoApellidoSocio = '" + segundoApellido + "', correoElectronicoSocio = '" + correoElectronico + "', contrasenaSocio = '" + contrasena + "' WHERE dniSocio = '" + dni + "';";
 		utilidades.guardarLog(tipoUsuario, "Modificación Socio", sentencia); //Script para guardar las acciones en el fichero log
-		try {
-			statement = connection.createStatement(); // Crea un objeto Statement
+		try { // Esto se utiliza para comprobar si la sentencia sql esta bien
+			statement = connection.createStatement(); // Crea un objeto Statement para procesar la sentencia y guardar el resultado
 			int filasAfectadas = statement.executeUpdate(sentencia); // Ejecuta la sentencia SQL y obtiene el número de filas afectadas
 			if (filasAfectadas > 0) {
 				modificacionCorrecta = true; //Si se afectaron las filas , la modificacion es correcta
@@ -324,7 +329,9 @@ public class Datos
 	public ResultSet obtenerReservas() 
 	{
 		ResultSet resultado = null;
-		String sentencia = "SELECT idReservas, precioReserva, fechaReserva, idSociosFK, idPistasFK from Reservas;";
+		String sentencia = "SELECT Reservas.idReservas, Reservas.precioReserva, Reservas.fechaReserva, Reservas.idSociosFK, Socios.dniSocio, Reservas.idPistasFK " +
+                "FROM Reservas " +
+                "JOIN Socios ON Reservas.idSociosFK = Socios.idSocios;";
 		utilidades.guardarLog(tipoUsuario, "Consulta Reserva", sentencia); //Script para guardar las acciones en el fichero log
 
 		try {
@@ -401,22 +408,23 @@ public class Datos
 
 	// Método para modificar una reserva
 	public boolean modificarReservas(String dni, String fecha, String precio, String pista) {
-		boolean modificacionCorrecta = false;
-		String sentencia = "UPDATE Reservas SET fechaReserva = '" + fecha + "', precioReserva = '" + precio + "', idPistasFK = '" + pista + "' WHERE idSociosFK = '" + dni + "';";
-		utilidades.guardarLog(tipoUsuario, "Modificación Reserva", sentencia); //Script para guardar las acciones en el fichero log
-		
-		try {
-			statement = connection.createStatement();
-			int filasAfectadas = statement.executeUpdate(sentencia);
-			if (filasAfectadas > 0) {
-				modificacionCorrecta = true;
-			}
-		} catch (SQLException e) {
-			System.out.println("Error en la sentencia SQL: " + e.toString());
-		}
+	    boolean modificacionCorrecta = false;
+	    String sentencia = "UPDATE Reservas SET fechaReserva = '" + fecha + "', precioReserva = '" + precio + "', idPistasFK = '" + pista + "' WHERE idSociosFK = (SELECT idSocios FROM Socios WHERE dniSocio = '" + dni + "');";
+	    utilidades.guardarLog(tipoUsuario, "Modificación Reserva", sentencia); // Script para guardar las acciones en el fichero log
+	    
+	    try {
+	        statement = connection.createStatement();
+	        int filasAfectadas = statement.executeUpdate(sentencia);
+	        if (filasAfectadas > 0) {
+	            modificacionCorrecta = true;
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Error en la sentencia SQL: " + e.toString());
+	    }
 
-		return modificacionCorrecta;
+	    return modificacionCorrecta;
 	}
+
 
 	 public boolean modificarPista(String idPista, String nombre, String zona, String tipo) {
 	        boolean modificacionCorrecta = false;
