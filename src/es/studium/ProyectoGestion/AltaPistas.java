@@ -16,6 +16,9 @@ import java.awt.event.WindowListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+
+
 public class AltaPistas implements WindowListener, ActionListener {
     Frame ventana = new Frame("Alta Pista");
 

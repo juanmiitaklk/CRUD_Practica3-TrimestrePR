@@ -72,8 +72,14 @@ public class Login implements WindowListener, ActionListener {
             if (datos.conectar()) {
                 String usuario = txtUsuario.getText();
                 String contraseña = txtContraseña.getText();
-                if (datos.comprobarCredenciales(usuario, contraseña, 0)) {
+                if (datos.comprobarCredenciales(usuario, contraseña)) {
                     int tipo = datos.dameTipo(usuario);
+                    
+                    datos.setTipoUsuario(tipo); // Asegurarse de establecer el tipo de usuario                 
+                    Utilidades.setUltimoTipoUsuario(tipo); // Actualizar el último tipo de usuario
+                    Utilidades utilidades = new Utilidades();
+                    utilidades.guardarLog("Iniciar Sesión", "Usuario: " + usuario);
+
                     new MenuPrincipal(tipo, contraseña);
                     ventana.setVisible(false);
                 } else {

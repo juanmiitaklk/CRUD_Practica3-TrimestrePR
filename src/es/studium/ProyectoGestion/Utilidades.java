@@ -8,9 +8,19 @@ import java.util.Date;
 
 public class Utilidades {
 
-    public String guardarLog(int tipoUsuario, String Mensaje, String SentenciasSql) {
-        String usuario = meTienesLoco(tipoUsuario);
-        
+    private static int ultimoTipoUsuario = -1;  // Significa que no hay ningun usuario logueado
+
+    public static void setUltimoTipoUsuario(int tipoUsuario) {
+        ultimoTipoUsuario = tipoUsuario;
+    }
+
+    public static int getUltimoTipoUsuario() {
+        return ultimoTipoUsuario;
+    }
+
+    public String guardarLog(String mensaje, String sentenciaSql) {
+        String usuario = meTienesLoco(ultimoTipoUsuario);
+
         // Obtiene la fecha y hora actual
         String fecha = obtenerFechaHoraActual();
         // Nombre del archivo de log
@@ -19,7 +29,7 @@ public class Utilidades {
         try (FileWriter fw = new FileWriter(archivoLog, true);
              PrintWriter pw = new PrintWriter(fw)) {
             // Escribe una línea en el archivo de log con la fecha, tipo de usuario, mensaje y sentencia SQL
-            pw.println("[" + fecha + "] [" + usuario + "] [" + Mensaje + "] [" + SentenciasSql + "]");
+            pw.println("[" + fecha + "] [" + usuario + "] [" + mensaje + "] [" + sentenciaSql + "]");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,8 +41,6 @@ public class Utilidades {
         switch (tipoUsuario) {
             case 1:
                 return "Básico";
-            case 2:
-                return "Administrador";
             default:
                 return "Administrador";
         }

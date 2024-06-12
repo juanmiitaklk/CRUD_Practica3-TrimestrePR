@@ -33,7 +33,6 @@ public class MenuPrincipal implements WindowListener, ActionListener {
     Label lblMensaje = new Label("          ");
 
     Datos datos = new Datos();
-    GuardarLog guardarLog = new GuardarLog();
     int tipoUsuario;
 
     public MenuPrincipal(int t, String contraseñaa) {
@@ -117,52 +116,53 @@ public class MenuPrincipal implements WindowListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        Utilidades utilidades = new Utilidades();
         // Socios
         if (e.getSource().equals(mniSocioConsultar)) {
             new ConsultarSocio();
-            guardarLog.guardarLog(tipoUsuario, "Consultar Socio");
+            utilidades.guardarLog("Consultar Socio", "");
         } else if (e.getSource().equals(mniSocioNuevo)) {
             new AltaSocio();
-            guardarLog.guardarLog(tipoUsuario, "Nuevo Socio");
+            utilidades.guardarLog("Nuevo Socio", "");
         } else if (e.getSource().equals(mniSocioEliminar)) {
             new BajaSocio();
-            guardarLog.guardarLog(tipoUsuario, "Eliminar Socio");
+            utilidades.guardarLog("Eliminar Socio", "");
         } else if (e.getSource().equals(mniSocioModificar)) {
             new ModificacionSocio();
-            guardarLog.guardarLog(tipoUsuario, "Modificar Socio");
+            utilidades.guardarLog("Modificar Socio", "");
         }
         // Reservas
         else if (e.getSource().equals(mniModificacionReservas)) {
             new ModificacionReserva();
-            guardarLog.guardarLog(tipoUsuario, "Modificar Reserva");
+            utilidades.guardarLog("Modificar Reserva", "");
         } else if (e.getSource().equals(mniAltaReservas)) {
             new AltaReservas();
-            guardarLog.guardarLog(tipoUsuario, "Crear una Reserva");
+            utilidades.guardarLog("Crear una Reserva", "");
         } else if (e.getSource().equals(mniBajaReservas)) {
             new BajaReservas();
-            guardarLog.guardarLog(tipoUsuario, "Dar de baja una Reserva");
+            utilidades.guardarLog("Dar de baja una Reserva", "");
         } else if (e.getSource().equals(mniConsultaReservas)) {
             new ConsultaReserva();
-            guardarLog.guardarLog(tipoUsuario, "Consultar Reservas");
+            utilidades.guardarLog("Consultar Reservas", "");
         }
         // Pistas
         else if (e.getSource().equals(mniModificacionPistas)) {
             new ModificacionPistas();
-            guardarLog.guardarLog(tipoUsuario, "Modificar Pista");
+            utilidades.guardarLog("Modificar Pista", "");
         } else if (e.getSource().equals(mniAltaPistas)) {
             new AltaPistas();
-            guardarLog.guardarLog(tipoUsuario, "Crear una Pista");
+            utilidades.guardarLog("Crear una Pista", "");
         } else if (e.getSource().equals(mniBajaPistas)) {
             new BajaPistas();
-            guardarLog.guardarLog(tipoUsuario, "Dar de baja una Pista");
+            utilidades.guardarLog("Dar de baja una Pista", "");
         } else if (e.getSource().equals(mniConsultaPistas)) {
             new ConsultaPistas();
-            guardarLog.guardarLog(tipoUsuario, "Consultar Pistas");
+            utilidades.guardarLog("Consultar Pistas", "");
         }
         // Ayuda
         else if (e.getSource().equals(mniAyuda)) {
             new Ayuda();
-            guardarLog.guardarLog(tipoUsuario, "Ayuda");
+            utilidades.guardarLog("Ayuda", "");
         }
     }
 
