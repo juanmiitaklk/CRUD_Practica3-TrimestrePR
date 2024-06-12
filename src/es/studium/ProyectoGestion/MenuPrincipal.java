@@ -116,53 +116,39 @@ public class MenuPrincipal implements WindowListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Utilidades utilidades = new Utilidades();
         // Socios
         if (e.getSource().equals(mniSocioConsultar)) {
             new ConsultarSocio();
-            utilidades.guardarLog("Consultar Socio", "");
         } else if (e.getSource().equals(mniSocioNuevo)) {
             new AltaSocio();
-            utilidades.guardarLog("Nuevo Socio", "");
         } else if (e.getSource().equals(mniSocioEliminar)) {
             new BajaSocio();
-            utilidades.guardarLog("Eliminar Socio", "");
         } else if (e.getSource().equals(mniSocioModificar)) {
             new ModificacionSocio();
-            utilidades.guardarLog("Modificar Socio", "");
         }
         // Reservas
         else if (e.getSource().equals(mniModificacionReservas)) {
             new ModificacionReserva();
-            utilidades.guardarLog("Modificar Reserva", "");
         } else if (e.getSource().equals(mniAltaReservas)) {
             new AltaReservas();
-            utilidades.guardarLog("Crear una Reserva", "");
         } else if (e.getSource().equals(mniBajaReservas)) {
             new BajaReservas();
-            utilidades.guardarLog("Dar de baja una Reserva", "");
         } else if (e.getSource().equals(mniConsultaReservas)) {
             new ConsultaReserva();
-            utilidades.guardarLog("Consultar Reservas", "");
         }
         // Pistas
         else if (e.getSource().equals(mniModificacionPistas)) {
             new ModificacionPistas();
-            utilidades.guardarLog("Modificar Pista", "");
         } else if (e.getSource().equals(mniAltaPistas)) {
             new AltaPistas();
-            utilidades.guardarLog("Crear una Pista", "");
         } else if (e.getSource().equals(mniBajaPistas)) {
             new BajaPistas();
-            utilidades.guardarLog("Dar de baja una Pista", "");
         } else if (e.getSource().equals(mniConsultaPistas)) {
             new ConsultaPistas();
-            utilidades.guardarLog("Consultar Pistas", "");
         }
         // Ayuda
         else if (e.getSource().equals(mniAyuda)) {
             new Ayuda();
-            utilidades.guardarLog("Ayuda", "");
         }
     }
 

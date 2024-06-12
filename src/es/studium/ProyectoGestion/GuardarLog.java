@@ -10,15 +10,13 @@ import java.util.Date;
 public class GuardarLog {
 
     public void guardarLog(int tipoUsuario, String mensaje) {
-        String usuario;
+        String usuario = null;
 
         // Determina el tipo de usuario basado en el valor de tipoUsuario
         if (tipoUsuario == 1) {
             usuario = "Básico";
         } else if (tipoUsuario == 2) {
             usuario = "Administrador";
-        } else {
-            usuario = "Desconocido";
         }
 
         // Crea un objeto Date con la fecha y hora actuales
@@ -29,10 +27,8 @@ public class GuardarLog {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
         try {
-            // Define el nombre del archivo de log basado en el tipo de usuario
-            String nombreArchivo = tipoUsuario == 1 ? "log_basico.log" : "log_admin.log";
-            
-            FileWriter fw = new FileWriter(nombreArchivo, true);
+
+            FileWriter fw = new FileWriter("Fichero.log", true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter salida = new PrintWriter(bw);
 

@@ -12,22 +12,15 @@ public class Datos
     // Variables para conectar la BBDD
     String driver = "com.mysql.cj.jdbc.Driver";
     String url = "jdbc:mysql://localhost:3306/Proyecto2TrimestreProgramacion";
-    String login = "root";
-    String password = "123456789";
+    String login = "juanmaRoot";
+    String password = "Studium2023;";
     Connection connection = null;
     Statement statement = null;
     ResultSet rs = null;
     private int tipoUsuario;
 
     // Objeto para la clase Utilidades
-    Utilidades utilidades = new Utilidades();
-
-    // Constructor vacío
-    Datos() {}
-
-    public int getTipoUsuario() {
-        return tipoUsuario;
-    }
+    Utilidades utilidades = new Utilidades();   
 
     public void setTipoUsuario(int tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
