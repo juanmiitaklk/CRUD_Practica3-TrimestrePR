@@ -205,7 +205,4 @@ public class ModificacionReserva implements WindowListener, ActionListener, Item
 
     }
 
-    public static void main(String[] args) {
-        new ModificacionReserva();
-    }
 }

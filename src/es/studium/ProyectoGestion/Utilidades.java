@@ -10,10 +10,12 @@ public class Utilidades {
 
     private static int ultimoTipoUsuario = -1;  // Significa que no hay ningun usuario logueado
 
+    //Esto para actualizar la variable 
     public static void setUltimoTipoUsuario(int tipoUsuario) {
         ultimoTipoUsuario = tipoUsuario;
     }
 
+    //Esto para que me devuelva la variable
     public static int getUltimoTipoUsuario() {
         return ultimoTipoUsuario;
     }

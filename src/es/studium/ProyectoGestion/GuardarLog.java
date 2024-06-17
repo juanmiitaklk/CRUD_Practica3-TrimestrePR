@@ -11,14 +11,7 @@ public class GuardarLog {
 
     public void guardarLog(int tipoUsuario, String mensaje) {
         String usuario = null;
-
-        // Determina el tipo de usuario basado en el valor de tipoUsuario
-        if (tipoUsuario == 1) {
-            usuario = "Básico";
-        } else if (tipoUsuario == 2) {
-            usuario = "Administrador";
-        }
-
+        
         // Crea un objeto Date con la fecha y hora actuales
         Date fecha = new Date();
         // Define el formato de fecha y hora

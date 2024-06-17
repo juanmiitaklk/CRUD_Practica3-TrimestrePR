@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Label;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -20,11 +21,16 @@ public class BajaReservas implements ActionListener, WindowListener {
     Frame ventana = new Frame("Baja Reservas");
     Choice reservasChoice = new Choice();
     Button eliminarbtn = new Button("Eliminar");
-    Label Tlbl = new Label("Selecciona uno para eliminar");
+    Label Tlbl = new Label("Selecciona una reserva para eliminar");
 
     Datos datos = new Datos();
     Dialog mensaje = new Dialog(ventana, "Mensaje", true);
     Label lblMensaje = new Label("");
+
+    Dialog confirmacion = new Dialog(ventana, "Confirmación", true);
+    Label lblConfirmacion = new Label("¿Estás seguro de que quieres eliminar esta reserva?");
+    Button btnSi = new Button("Sí");
+    Button btnNo = new Button("No");
 
     BajaReservas() {
         ventana.setLayout(new GridLayout(3, 1, 10, 10)); 
@@ -40,22 +46,54 @@ public class BajaReservas implements ActionListener, WindowListener {
         ventana.add(reservasChoice);
         ventana.add(eliminarbtn);
 
-
         mensaje.setLayout(new FlowLayout());
         mensaje.setSize(250, 100);
         mensaje.setResizable(false);
         mensaje.setLocationRelativeTo(null);
         mensaje.add(lblMensaje);
 
-        // Correciones para que el dialog se cierre correctamente
+        confirmacion.setLayout(new GridLayout(2, 1));
+        confirmacion.setSize(300, 150);
+        confirmacion.setResizable(false);
+        confirmacion.setLocationRelativeTo(null);
+
+        Panel panelConfirmacion = new Panel();
+        panelConfirmacion.setLayout(new FlowLayout());
+        panelConfirmacion.add(btnSi);
+        panelConfirmacion.add(btnNo);
+
+        confirmacion.add(lblConfirmacion);
+        confirmacion.add(panelConfirmacion);
+
+        btnSi.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                eliminarReserva();
+                confirmacion.setVisible(false);
+            }
+        });
+
+        btnNo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                confirmacion.setVisible(false);
+            }
+        });
+
+        // Correcciones para que el diálogo se cierre correctamente
         mensaje.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 mensaje.dispose();
             }
         });
-        
-        // Correciones para que la ventana se cierre correctamente
+
+        confirmacion.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                confirmacion.dispose();
+            }
+        });
+
+        // Correcciones para que la ventana se cierre correctamente
         ventana.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -65,20 +103,16 @@ public class BajaReservas implements ActionListener, WindowListener {
 
         ventana.setVisible(true);
     }
-
+    //Metodo para cargar las reservas desde la BBDD y meterlos en un choice
     private void cargarReservas() {
         datos.conectar();
-        //Llamamos a obtenerReservas de datos, que devuelve un Rs con las reservas de la BBDD
         ResultSet reservas = datos.obtenerReservas(); 
         try {
-        	// Itera sobre el Rs de reservas
-            while (reservas.next()) { //Se mueve a la siguiente fila, si hay otra devuelve true si no false
-                String precio = reservas.getString("precioReserva");//Coge el valor del Rs
-                String fecha = reservas.getString("fechaReserva");//Coge el valor del Rs
-                String idSocio = reservas.getString("idSociosFK");//Coge el valor del Rs
-                //Creamos una descripcion usando los valores
+            while (reservas.next()) { 
+                String precio = reservas.getString("precioReserva");
+                String fecha = reservas.getString("fechaReserva");
+                String idSocio = reservas.getString("idSociosFK");
                 String descripcion = "Precio: " + precio + ", Fecha: " + fecha + ", ID Socio: " + idSocio;
-                //Metemos los valores de la descripcion en el choice
                 reservasChoice.add(descripcion);
             }
         } catch (SQLException e) {
@@ -90,73 +124,66 @@ public class BajaReservas implements ActionListener, WindowListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == eliminarbtn) {
-        	//Obtiene el item que hemos seleccionado y lo almacenamos en la variable reservaSeleccionada
-            String reservaSeleccionada = reservasChoice.getSelectedItem();
-            //Con el split dividimos la cadena en partes y ponemos comas
-            String[] partes = reservaSeleccionada.split(", ");
-            // Extraemos los valores de precio, fecha y idSocio
-            String precio = partes[0].split(": ")[1];
-            String fecha = partes[1].split(": ")[1];
-            String idSocio = partes[2].split(": ")[1];
-
-            datos.conectar();
-            //Llamamos al metodo eliminarReserva de datos y le pasamos los valores obtenidos almacenamos los resultados en un booleano
-            boolean eliminacionCorrecta = datos.eliminarReserva(precio, fecha, idSocio);
-
-            if (eliminacionCorrecta) {
-            	//Si eel booleano de eliminacionCorrecta es true muestra el dialog de que se ha eliminado
-                lblMensaje.setText("Reserva eliminada correctamente");
-                reservasChoice.remove(reservaSeleccionada); // Y lo elimina 
-            } else {
-                lblMensaje.setText("No se pudo eliminar la Reserva");
-            }
-            mensaje.setVisible(true);
-            datos.desconectar();
+            confirmacion.setVisible(true);
         }
     }
 
-    public static void main(String[] args) {
-        new BajaReservas();
+    //Metodo para eliminar las reservas
+    private void eliminarReserva() {
+    	//Creamos una variable para almacenar el valor, y llamaos al elemeto seleccionado de "reservasChoice"
+        String reservaSeleccionada = reservasChoice.getSelectedItem();
+        //Dividimos la cadena en partes separada por comas y extraemos los valores individuales
+        String[] partes = reservaSeleccionada.split(", ");
+        String precio = partes[0].split(": ")[1];
+        String fecha = partes[1].split(": ")[1];
+        String idSocio = partes[2].split(": ")[1];
+
+        datos.conectar();
+        boolean eliminacionCorrecta = datos.eliminarReserva(precio, fecha, idSocio);
+
+        if (eliminacionCorrecta) {
+            lblMensaje.setText("Reserva eliminada correctamente");
+            reservasChoice.remove(reservaSeleccionada);
+        } else {
+            lblMensaje.setText("No se pudo eliminar la reserva");
+        }
+        mensaje.setVisible(true);
+        datos.desconectar();
     }
 
-	@Override
-	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void windowOpened(WindowEvent e) {
+        // TODO Auto-generated method stub
+    }
 
-	@Override
-	public void windowClosing(WindowEvent e) {
-		ventana.dispose();
-	}
+    @Override
+    public void windowClosing(WindowEvent e) {
+        ventana.dispose();
+    }
 
-	@Override
-	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void windowClosed(WindowEvent e) {
+        // TODO Auto-generated method stub
+    }
 
-	@Override
-	public void windowIconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void windowIconified(WindowEvent e) {
+        // TODO Auto-generated method stub
+    }
 
-	@Override
-	public void windowDeiconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+        // TODO Auto-generated method stub
+    }
 
-	@Override
-	public void windowActivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void windowActivated(WindowEvent e) {
+        // TODO Auto-generated method stub
+    }
 
-	@Override
-	public void windowDeactivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+        // TODO Auto-generated method stub
+    }
+
 }

@@ -6,9 +6,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public class Datos
-{
+public class Datos {
     // Variables para conectar la BBDD
     String driver = "com.mysql.cj.jdbc.Driver";
     String url = "jdbc:mysql://localhost:3306/Proyecto2TrimestreProgramacion";
@@ -27,22 +29,16 @@ public class Datos
     }
 
     // Método para conectar a la base de datos
-    public boolean conectar()
-    {
+    public boolean conectar() {
         boolean conexionCorrecta = true;
-        try
-        {
+        try {
             Class.forName(driver); // Carga el driver de la base de datos
             // Establece la conexión
             connection = DriverManager.getConnection(url, login, password);
-        }
-        catch (ClassNotFoundException e)
-        {
+        } catch (ClassNotFoundException e) {
             System.out.println("Se ha producido un error al cargar el Driver");
             conexionCorrecta = false;
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             System.out.println("Se produjo un error al conectar a la Base de Datos");
             conexionCorrecta = false;
         }
@@ -75,37 +71,28 @@ public class Datos
     }
 
     // Método para desconectar de la BBDD
-    public void desconectar()
-    {
-        try
-        {
+    public void desconectar() {
+        try {
             statement.close();
             connection.close();
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             System.out.println("Error al cerrar " + e.toString());
         }
     }
 
     // Método para obtener los nombres de los socios
-    public String dameSocios()
-    {
+    public String dameSocios() {
         String contenido = "";
         String sentencia = "SELECT * FROM Socios;";
-        try
-        {
+        try {
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs = statement.executeQuery(sentencia);
-            while (rs.next())
-            {
+            while (rs.next()) {
                 contenido = contenido + rs.getString("nombreSocios") + "\n";
             }
             utilidades.guardarLog("Consulta Socio", sentencia);
 
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             System.out.println("Error en la sentencia SQL:" + e.toString());
         }
         return contenido;
@@ -113,21 +100,17 @@ public class Datos
 
     // Método para dar de alta un socio
     public boolean AltaSocio(String dni, String nombre, String primerApellido, String segundoApellido, 
-            String correoElectronico, String contrasena)
-    {
+            String correoElectronico, String contrasena) {
         boolean altaCorrecta = true;
         String sentencia = "INSERT INTO Socios (dniSocio, nombreSocio, primerApellidoSocio, segundoApellidoSocio, "
                 + "correoElectronicoSocio, contrasenaSocio, idReservasFK)  " +
                 "VALUES ('" + dni + "', '" + nombre + "', '" + primerApellido + "', '" + segundoApellido + "', '" 
                 + correoElectronico + "', '" + contrasena + "', 1);";
         utilidades.guardarLog("Alta Socio", sentencia);
-        try
-        {
+        try {
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.executeUpdate(sentencia);
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             System.out.println("Error en la sentencia SQL:" + e.toString());
             altaCorrecta = false;
         }
@@ -135,8 +118,7 @@ public class Datos
     }
 
     // Método para obtener el tipo de usuario
-    public int dameTipo(String usuario) 
-    {
+    public int dameTipo(String usuario) {
         String sentencia = "SELECT tipoUsuario FROM Usuarios where nombreUsuario = '" + usuario + "';";
         try {
             statement = connection.createStatement();
@@ -152,8 +134,7 @@ public class Datos
     }
 
     // Método para eliminar un socio
-    public boolean eliminarSocio(String dni, String contrasena) 
-    {
+    public boolean eliminarSocio(String dni, String contrasena) {
         boolean eliminacionCorrecta = false;
         String sentencia = "DELETE FROM Socios WHERE dniSocio = '" + dni + "' AND contrasenaSocio = '" + contrasena + "';";
         utilidades.guardarLog("Eliminar Socio", sentencia);
@@ -174,8 +155,7 @@ public class Datos
     }
 
     // Método para obtener todos los socios
-    public ResultSet obtenerSocios() 
-    {
+    public ResultSet obtenerSocios() {
         ResultSet resultado = null;
         String sentencia = "SELECT idSocios, dniSocio, nombreSocio, primerApellidoSocio, segundoApellidoSocio,"
                 + " correoElectronicoSocio, contrasenaSocio from Socios;";
@@ -206,8 +186,7 @@ public class Datos
     }
 
     // Método para modificar un socio
-    public boolean modificarSocio(String dni, String nombre, String primerApellido, String segundoApellido, String correoElectronico, String contrasena) 
-    {
+    public boolean modificarSocio(String dni, String nombre, String primerApellido, String segundoApellido, String correoElectronico, String contrasena) {
         boolean modificacionCorrecta = false;
         // Sentencia SQL para actualizar la información del socio
         String sentencia = "UPDATE Socios SET nombreSocio = '" + nombre + "', primerApellidoSocio = '" + primerApellido + "', segundoApellidoSocio = '" + segundoApellido + "', correoElectronicoSocio = '" + correoElectronico + "', contrasenaSocio = '" + contrasena + "' WHERE dniSocio = '" + dni + "';";
@@ -240,8 +219,7 @@ public class Datos
     }
 
     // Método para dar de alta una reserva
-    public boolean altaReservas(String socio, String fecha, String precio, String pista) throws SQLException
-    {
+    public boolean altaReservas(String socio, String fecha, String precio, String pista) throws SQLException {
         String[] socioParts = socio.split(" - "); // Con el split dividimos la cadena en partes 
         String[] pistaParts = pista.split(" - "); // Y repetimos con pista
         // Creamos la sentencia SQL
@@ -262,8 +240,7 @@ public class Datos
     }
 
     // Método para mostrar las pistas
-    public ResultSet mostrarPistas() 
-    {
+    public ResultSet mostrarPistas() {
         ResultSet resultado = null;
         String sentencia = "SELECT idPistas, nombrePista, zonaPista, tipoPista from Pistas;";
         utilidades.guardarLog("Consulta Pistas", sentencia); // Script para guardar las acciones en el fichero log
@@ -291,8 +268,7 @@ public class Datos
     }
 
     // Método para obtener todas las pistas
-    public ResultSet obtenerPistas() 
-    {
+    public ResultSet obtenerPistas() {
         ResultSet resultado = null;
         String sentencia = "SELECT idPistas, nombrePista, zonaPista, tipoPista from Pistas;";
         utilidades.guardarLog("Consulta Pistas", sentencia); // Script para guardar las acciones en el fichero log
@@ -306,8 +282,7 @@ public class Datos
         return resultado;
     }
 
-    public ResultSet obtenerReservas() 
-    {
+    public ResultSet obtenerReservas() {
         ResultSet resultado = null;
         String sentencia = "SELECT Reservas.idReservas, Reservas.precioReserva, Reservas.fechaReserva, Reservas.idSociosFK, Socios.dniSocio, Reservas.idPistasFK " +
                 "FROM Reservas " +
@@ -436,5 +411,18 @@ public class Datos
             System.out.println("Error en la sentencia SQL: " + e.toString());
         }
         return resultado;
+    }
+
+    // Metodo para convertir una fecha
+    public String convertirFechaAEuropea(String fecha) {
+        SimpleDateFormat formatoEntrada = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatoSalida = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            Date fechaDate = formatoEntrada.parse(fecha);
+            return formatoSalida.format(fechaDate);
+        } catch (ParseException e) {
+            System.out.println("Error al convertir la fecha: " + e.getMessage());
+            return null;
+        }
     }
 }

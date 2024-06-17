@@ -61,6 +61,7 @@ public class AltaReservas implements WindowListener, ActionListener {
         Mensaje.setLocationRelativeTo(null);
         Mensaje.add(lblMensaje);
         
+        // Llama a los metodos para cargar los socios y las pistas en los objetos Choice.
         cargarSocios();
         cargarPistas();
 
@@ -74,6 +75,7 @@ public class AltaReservas implements WindowListener, ActionListener {
         });
     }
 
+    // Metodo para cargar los socios desde la base de datos.
     private void cargarSocios() {
         datos.conectar();
         ResultSet rs = datos.obtenerSocios();
@@ -88,6 +90,7 @@ public class AltaReservas implements WindowListener, ActionListener {
         datos.desconectar();
     }
 
+    // Metodo para cargar las pistas desde la base de datos.
     private void cargarPistas() {
         datos.conectar();
         ResultSet rs = datos.obtenerPistas();
@@ -106,7 +109,9 @@ public class AltaReservas implements WindowListener, ActionListener {
         if (e.getSource() == aceptarbtn) {
             datos.conectar();
             try {
-                boolean altaCorrecta = datos.altaReservas(FKSocioCh.getSelectedItem(), fechaReservaTXT.getText(),
+                // Convertir la fecha a formato europeo antes de pasarla al método altaReservas
+                String fechaEuropea = datos.convertirFechaAEuropea(fechaReservaTXT.getText());
+                boolean altaCorrecta = datos.altaReservas(FKSocioCh.getSelectedItem(), fechaEuropea,
                                                           PrecioReservaTXT.getText(), FKPistaCh.getSelectedItem());
 
                 if (altaCorrecta) {
@@ -121,6 +126,7 @@ public class AltaReservas implements WindowListener, ActionListener {
             } finally {
                 datos.desconectar();
             }
+            // Intenta crear una nueva reserva con los datos ingresados y muestra un mensaje dependiendo del resultado.
         } else if (e.getSource() == limpiarbtn) {
             fechaReservaTXT.setText("");
             PrecioReservaTXT.setText("");
@@ -150,7 +156,4 @@ public class AltaReservas implements WindowListener, ActionListener {
     @Override
     public void windowDeactivated(WindowEvent e) {}
 
-    public static void main(String[] args) {
-        new AltaReservas();
-    }
 }
